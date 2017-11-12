@@ -1,0 +1,12 @@
+{% for topic in topics %}
+    <li>
+      <h3>
+        <a href="{% url 'learning_logs:topic' topic.id %}">{{topic}}</a>
+        <small>
+          <a href="javascript:$.del_topic({{ topic.id }})" style="float: right">删除</a>
+        </small>
+      </h3>
+    </li>
+{% empty %}
+    <p>目前还没添加任何主题。</p>
+{% endfor %}

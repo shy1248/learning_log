@@ -1,0 +1,22 @@
+{% for entry in entries %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4>
+          <small><span>时间:&nbsp&nbsp</span></small>{{ entry.date_added|date:'M d,Y H:i' }}
+          <small>
+            <span style="float: right;padding-left: 10px;"><a href="javascript:$.show_modal()">删除</a></span>
+            <input type="hidden" id="entry_id" value="{{ entry.id }}">
+            <input type="hidden" id="entry" value="{{ entry }}">
+            <span style="float: right;padding-right: 10px;"><a href="{% url 'learning_logs:edit_entry' entry.id %}">编辑</a></span>
+          </small>
+        </h4>
+
+      </div>
+      <div class="panel-body">
+        <h4>{{ entry.text|linebreaks }}</h4>
+      </div>
+    </div>
+
+    {% empty %}
+    <p>还没有添加任何主题。</p>
+{% endfor %}

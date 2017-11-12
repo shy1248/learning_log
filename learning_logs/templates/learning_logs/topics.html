@@ -1,0 +1,52 @@
+{% extends 'learning_logs/base.html' %}
+
+{% block header %}
+  <h2>主题</h2>
+{% endblock header %}
+
+{% block content %}
+<ul id="topic_list">
+{% include 'learning_logs/t_topic.html' %}
+</ul>
+<h4><a class="btn btn-primary" style="margin-top: 30px;" href="{% url 'learning_logs:new_topic' %}">添加新的主题</a></h4>
+
+<script type="text/javascript" charset="utf-8">
+  $.del_topic = function (topic_id) {
+      $.ajax({
+        type:'post',
+        url:{% url 'learning_logs:query_topic' %},
+        data:{'topic_id': topic_id},
+        dataType:'json',
+        timeout:10000,
+        async:false,
+        success:function (resp) {
+            if(resp.result == "NoEmpty"){
+                alert("该主题下面还有记录！");
+            }else{
+                del_topic(topic_id);
+            }
+        }
+      });
+  };
+
+  function del_topic(topic_id) {
+    $.ajax({
+        type:'post',
+        url:{% url 'learning_logs:del_topic' %},
+        data:{'topic_id': topic_id},
+        dataType:'json',
+        timeout:10000,
+        cache:false,
+        success:function (resp) {
+            console.log(resp.html);
+            console.log(resp.html);
+            if(resp.result == "succeed"){
+                $('#topic_list').html(resp.html);
+            }else{
+                alert("主题删除失败！")
+            }
+        }
+    })
+  }
+</script>
+{% endblock content %}
